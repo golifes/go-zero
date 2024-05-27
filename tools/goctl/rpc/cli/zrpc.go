@@ -2,7 +2,6 @@ package cli
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -37,6 +36,7 @@ func ZRPC(_ *cobra.Command, args []string) error {
 	remote := VarStringRemote
 	branch := VarStringBranch
 	verbose := VarBoolVerbose
+	removeSuffix := VarRemoveSuffix
 	if len(grpcOutList) == 0 {
 		return errInvalidGrpcOutput
 	}
@@ -97,7 +97,6 @@ func ZRPC(_ *cobra.Command, args []string) error {
 
 	var ctx generator.ZRpcContext
 	ctx.Multiple = VarBoolMultiple
-	fmt.Println("VarBoolMultiple--->", VarBoolMultiple)
 	ctx.Src = source
 	ctx.GoOutput = goOut
 	ctx.GrpcOutput = grpcOut
@@ -105,7 +104,7 @@ func ZRPC(_ *cobra.Command, args []string) error {
 	ctx.Output = zrpcOut
 	ctx.ProtocCmd = strings.Join(protocArgs, " ")
 	ctx.IsGenClient = VarBoolClient
-	g := generator.NewGenerator(style, verbose, true)
+	g := generator.NewGenerator(style, verbose, removeSuffix)
 	return g.Generate(&ctx)
 }
 
