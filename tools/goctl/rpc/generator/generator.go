@@ -10,13 +10,14 @@ import (
 
 // Generator defines the environment needs of rpc service generation
 type Generator struct {
-	log     console.Console
-	cfg     *conf.Config
-	verbose bool
+	log          console.Console
+	cfg          *conf.Config
+	verbose      bool
+	removeSuffix bool
 }
 
 // NewGenerator returns an instance of Generator
-func NewGenerator(style string, verbose bool) *Generator {
+func NewGenerator(style string, verbose, removeSuffix bool) *Generator {
 	cfg, err := conf.NewConfig(style)
 	if err != nil {
 		log.Fatalln(err)
@@ -25,9 +26,10 @@ func NewGenerator(style string, verbose bool) *Generator {
 	colorLogger := console.NewColorConsole(verbose)
 
 	return &Generator{
-		log:     colorLogger,
-		cfg:     cfg,
-		verbose: verbose,
+		log:          colorLogger,
+		cfg:          cfg,
+		verbose:      verbose,
+		removeSuffix: removeSuffix,
 	}
 }
 

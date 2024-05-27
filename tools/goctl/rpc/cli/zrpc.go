@@ -36,6 +36,7 @@ func ZRPC(_ *cobra.Command, args []string) error {
 	remote := VarStringRemote
 	branch := VarStringBranch
 	verbose := VarBoolVerbose
+	removeSuffix := VarRemoveSuffix
 	if len(grpcOutList) == 0 {
 		return errInvalidGrpcOutput
 	}
@@ -103,7 +104,7 @@ func ZRPC(_ *cobra.Command, args []string) error {
 	ctx.Output = zrpcOut
 	ctx.ProtocCmd = strings.Join(protocArgs, " ")
 	ctx.IsGenClient = VarBoolClient
-	g := generator.NewGenerator(style, verbose)
+	g := generator.NewGenerator(style, verbose, removeSuffix)
 	return g.Generate(&ctx)
 }
 

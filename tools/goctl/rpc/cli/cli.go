@@ -46,6 +46,9 @@ var (
 	VarBoolMultiple bool
 	// VarBoolClient describes whether to generate rpc client
 	VarBoolClient bool
+
+	// VarRemoveSuffix  true :remove  Logic and Handler False:not remove ...
+	VarRemoveSuffix bool
 )
 
 // RPCNew is to generate rpc greet service, this greet service can speed
@@ -61,6 +64,8 @@ func RPCNew(_ *cobra.Command, args []string) error {
 	remote := VarStringRemote
 	branch := VarStringBranch
 	verbose := VarBoolVerbose
+	removeSuffix := VarRemoveSuffix
+
 	if len(remote) > 0 {
 		repo, _ := util.CloneIntoGitHome(remote, branch)
 		if len(repo) > 0 {
@@ -102,7 +107,7 @@ func RPCNew(_ *cobra.Command, args []string) error {
 		ctx.ProtocCmd += " --go_opt=" + strings.Join(goOptList, ",")
 	}
 
-	g := generator.NewGenerator(style, verbose)
+	g := generator.NewGenerator(style, verbose, removeSuffix)
 	return g.Generate(&ctx)
 }
 
