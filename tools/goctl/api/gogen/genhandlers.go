@@ -18,8 +18,8 @@ const defaultLogicPackage = "logic"
 //go:embed handler.tpl
 var handlerTemplate string
 
-func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route spec.Route, suffix bool) error {
-	handler := getHandlerName(route, suffix)
+func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route spec.Route, removeSuffix bool) error {
+	handler := getHandlerName(route, removeSuffix)
 	handlerPath := getHandlerFolderPath(group, route)
 	pkgName := handlerPath[strings.LastIndex(handlerPath, "/")+1:]
 	logicName := defaultLogicPackage
@@ -46,7 +46,7 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 			"HandlerName":    handler,
 			"RequestType":    util.Title(route.RequestTypeName()),
 			"LogicName":      logicName,
-			"LogicType":      strings.Title(getLogicName(route, suffix)),
+			"LogicType":      strings.Title(getLogicName(route, removeSuffix)),
 			"Call":           strings.Title(strings.TrimSuffix(handler, "Handler")),
 			"HasResp":        len(route.ResponseTypeName()) > 0,
 			"HasRequest":     len(route.RequestTypeName()) > 0,
@@ -56,10 +56,10 @@ func genHandler(dir, rootPkg string, cfg *config.Config, group spec.Group, route
 	})
 }
 
-func genHandlers(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec, suffix bool) error {
+func genHandlers(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec, removeSuffix bool) error {
 	for _, group := range api.Service.Groups {
 		for _, route := range group.Routes {
-			if err := genHandler(dir, rootPkg, cfg, group, route, suffix); err != nil {
+			if err := genHandler(dir, rootPkg, cfg, group, route, removeSuffix); err != nil {
 				return err
 			}
 		}
@@ -104,23 +104,23 @@ func getHandlerFolderPath(group spec.Group, route spec.Route) string {
 	return path.Join(handlerDir, folder)
 }
 
-func getHandlerName(route spec.Route, suffix bool) string {
+func getHandlerName(route spec.Route, removeSuffix bool) string {
 	handler, err := getHandlerBaseName(route)
 	if err != nil {
 		panic(err)
 	}
-	if suffix {
+	if removeSuffix {
 		return handler
 	}
 	return handler + "Handler"
 }
 
-func getLogicName(route spec.Route, suffix bool) string {
+func getLogicName(route spec.Route, removeSuffix bool) string {
 	handler, err := getHandlerBaseName(route)
 	if err != nil {
 		panic(err)
 	}
-	if suffix {
+	if removeSuffix {
 		return handler
 	}
 	return handler + "Logic"
