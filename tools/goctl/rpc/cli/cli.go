@@ -46,6 +46,9 @@ var (
 	VarBoolMultiple bool
 	// VarBoolClient describes whether to generate rpc client
 	VarBoolClient bool
+
+	// VarRemoveSuffix  true :remove  Logic and Handler False:not remove ...
+	VarRemoveSuffix bool
 )
 
 // RPCNew is to generate rpc greet service, this greet service can speed
