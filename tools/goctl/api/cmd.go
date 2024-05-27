@@ -86,6 +86,7 @@ func init() {
 	newCmdFlags.StringVar(&new.VarStringRemote, "remote")
 	newCmdFlags.StringVar(&new.VarStringBranch, "branch")
 	newCmdFlags.StringVarWithDefaultValue(&new.VarStringStyle, "style", config.DefaultFormat)
+	newCmdFlags.BoolVarWithDefaultValue(&new.VarRemoveSuffix, "suffix", config.RemoveSuffix)
 
 	pluginCmdFlags.StringVarP(&plugin.VarStringPlugin, "plugin", "p")
 	pluginCmdFlags.StringVar(&plugin.VarStringDir, "dir")
