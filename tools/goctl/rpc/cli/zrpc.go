@@ -2,6 +2,7 @@ package cli
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -96,6 +97,7 @@ func ZRPC(_ *cobra.Command, args []string) error {
 
 	var ctx generator.ZRpcContext
 	ctx.Multiple = VarBoolMultiple
+	fmt.Println("VarBoolMultiple--->", VarBoolMultiple)
 	ctx.Src = source
 	ctx.GoOutput = goOut
 	ctx.GrpcOutput = grpcOut
