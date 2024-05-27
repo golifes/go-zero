@@ -159,3 +159,10 @@ func (g *Generator) genLogicFunction(serviceName, goPackage, logicName string,
 	functions = append(functions, buffer.String())
 	return strings.Join(functions, pathx.NL), nil
 }
+
+func getLogicName(name string, removeSuffix bool) string {
+	if removeSuffix {
+		return stringx.From(name).ToCamel()
+	}
+	return fmt.Sprintf("%sLogic", stringx.From(name).ToCamel())
+}
