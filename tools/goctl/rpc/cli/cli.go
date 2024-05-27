@@ -64,6 +64,8 @@ func RPCNew(_ *cobra.Command, args []string) error {
 	remote := VarStringRemote
 	branch := VarStringBranch
 	verbose := VarBoolVerbose
+	removeSuffix := VarRemoveSuffix
+
 	if len(remote) > 0 {
 		repo, _ := util.CloneIntoGitHome(remote, branch)
 		if len(repo) > 0 {
@@ -105,7 +107,7 @@ func RPCNew(_ *cobra.Command, args []string) error {
 		ctx.ProtocCmd += " --go_opt=" + strings.Join(goOptList, ",")
 	}
 
-	g := generator.NewGenerator(style, verbose, true)
+	g := generator.NewGenerator(style, verbose, removeSuffix)
 	return g.Generate(&ctx)
 }
 
