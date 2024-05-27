@@ -105,7 +105,7 @@ func RPCNew(_ *cobra.Command, args []string) error {
 		ctx.ProtocCmd += " --go_opt=" + strings.Join(goOptList, ",")
 	}
 
-	g := generator.NewGenerator(style, verbose)
+	g := generator.NewGenerator(style, verbose, true)
 	return g.Generate(&ctx)
 }
 
