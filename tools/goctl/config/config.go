@@ -17,6 +17,7 @@ const (
 	// DefaultFormat defines a default naming style
 	DefaultFormat = "gozero"
 	configFile    = "goctl.yaml"
+	RemoveSuffix  = false
 )
 
 var (

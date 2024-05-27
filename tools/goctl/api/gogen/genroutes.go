@@ -75,9 +75,9 @@ type (
 	}
 )
 
-func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec) error {
+func genRoutes(dir, rootPkg string, cfg *config.Config, api *spec.ApiSpec, suffix bool) error {
 	var builder strings.Builder
-	groups, err := getRoutes(api)
+	groups, err := getRoutes(api, suffix)
 	if err != nil {
 		return err
 	}
@@ -230,13 +230,13 @@ func genRouteImports(parentPkg string, api *spec.ApiSpec) string {
 	return fmt.Sprintf("%s\n\n\t%s", projectSection, depSection)
 }
 
-func getRoutes(api *spec.ApiSpec) ([]group, error) {
+func getRoutes(api *spec.ApiSpec, suffix bool) ([]group, error) {
 	var routes []group
 
 	for _, g := range api.Service.Groups {
 		var groupedRoutes group
 		for _, r := range g.Routes {
-			handler := getHandlerName(r)
+			handler := getHandlerName(r, suffix)
 			handler = handler + "(serverCtx)"
 			folder := r.GetAnnotation(groupProperty)
 			if len(folder) > 0 {
