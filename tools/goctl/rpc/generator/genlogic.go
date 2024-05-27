@@ -41,7 +41,8 @@ func (g *Generator) genLogicInCompatibility(ctx DirContext, proto parser.Proto,
 	dir := ctx.GetLogic()
 	service := proto.Service[0].Service.Name
 	for _, rpc := range proto.Service[0].RPC {
-		logicName := fmt.Sprintf("%sLogic", stringx.From(rpc.Name).ToCamel())
+		//logicName := fmt.Sprintf("%sLogic", stringx.From(rpc.Name).ToCamel())
+		logicName := g.getLogicName(rpc.Name)
 		logicFilename, err := format.FileNamingFormat(cfg.NamingFormat, rpc.Name+"_logic")
 		if err != nil {
 			return err
@@ -86,7 +87,8 @@ func (g *Generator) genLogicGroup(ctx DirContext, proto parser.Proto, cfg *conf.
 				packageName   string
 			)
 
-			logicName = fmt.Sprintf("%sLogic", stringx.From(rpc.Name).ToCamel())
+			//logicName = fmt.Sprintf("%sLogic", stringx.From(rpc.Name).ToCamel())
+			logicName = g.getLogicName(rpc.Name)
 			childPkg, err := dir.GetChildPackage(serviceName)
 			if err != nil {
 				return err
